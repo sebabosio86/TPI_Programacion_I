@@ -35,9 +35,10 @@ def programa_principal():
             except ValueError:  
                 print(f"\nERROR: Debe ingresar un numero entre 1 y 7.")
         
-        # Accede a la función correspondiente de acuerdo a la opción seleccionada por el usuario.
+        # Invoca a la función correspondiente de acuerdo a la opción seleccionada por el usuario.
         if opcion == 1:
 
+            agregar_pais()
             pass
 
         elif opcion == 2:
@@ -62,7 +63,7 @@ def programa_principal():
 
         else:
 
-            # Opción salir del programa
+            # Opción 7 - Salir del programa
             print("\nSaliendo del sistema")
             print("Hasta la próxima")
             return
@@ -78,7 +79,8 @@ def agregar_pais():
     print(" "*11 + "--- AGREGAR NUEVO PAÍS ---")
     print("="*50)
 
-    
+    #nombre_pais = validar_nombre("Nombre: ").strip().lower()
+
 
     return
 
@@ -104,13 +106,13 @@ def validar_nombre(mensaje):
     while True:
 
         # Se pide ingresar el nombre del país
-        pais = input(mensaje).strip().lower()
+        nombre_pais = input(mensaje).strip().lower()
         
         # En caso de ingresar str vacío se muestra mensaje de error.
-        if pais == "":
-            print("ERROR: No se ingresó ningún nombre.")
+        if nombre_pais == "":
+            print("\nERROR: No se ingresó ningún nombre.")
         else:
-            return pais
+            return nombre_pais
 
 
 #####################################################
@@ -128,17 +130,37 @@ def ingresar_entero(mensaje):
 
             # Valida que el número ingresado sea mayor a 0
             if numero <= 0:
-                print("ERROR: Debe ingresar un número entero mayor que cero.")
+                print("\nERROR: Debe ingresar un número entero mayor que cero.")
                 continue
             
             return numero
         
         # Si se ingresa otro dato que no sea entero se muestra un error.
         except ValueError:
-            print("ERROR: Debe ingresar un número entero mayor que cero.")
+            print("\nERROR: Debe ingresar un número entero mayor que cero.")
 
 
+#####################################################
+#####################################################
 
+# Verifica si el país existe en el csv
+def verificar_existencia(nombre_pais):
+
+    with open("dataset_paises.csv", "r", encoding="utf-8") as archivo:
+
+        lector = csv.reader(archivo)
+
+        # Saltar la cabecera
+        next(lector)
+
+        # Recorre el csv fila por fila
+        for fila in lector:
+
+            # fila[0] corresponde a los nombres de países. Si coincide devuelve True
+            if fila[0] == nombre_pais:
+                return True
+
+    return False
 
 
 #####################################################################################################################
@@ -150,3 +172,4 @@ def ingresar_entero(mensaje):
 # Se importa la biblioteca csv
 import csv
 
+programa_principal()
