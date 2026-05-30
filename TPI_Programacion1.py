@@ -66,18 +66,76 @@ def programa_principal():
             print("\nSaliendo del sistema")
             print("Hasta la próxima")
             return
-        
+
+
+#####################################################
 #####################################################
 
 # Agregar nuevo país
-
 def agregar_pais():
+
     print("\n" + "="*50)
     print(" "*11 + "--- AGREGAR NUEVO PAÍS ---")
     print("="*50)
 
+    
 
     return
+
+
+
+
+
+
+
+
+
+
+
+#####################################################################################################################
+
+# Declaración de FUNCIONES SECUNDARIAS
+
+#####################################################################################################################
+
+# Comprueba que el nombre de país ingresado no sea un string vacío
+def validar_nombre(mensaje):
+
+    while True:
+
+        # Se pide ingresar el nombre del país
+        pais = input(mensaje).strip().lower()
+        
+        # En caso de ingresar str vacío se muestra mensaje de error.
+        if pais == "":
+            print("ERROR: No se ingresó ningún nombre.")
+        else:
+            return pais
+
+
+#####################################################
+#####################################################
+
+# Valida que el valor ingresado sea un número entero
+def ingresar_entero(mensaje):
+
+    while True:
+
+        try:
+
+            # Si pide ingresar el número
+            numero = int(input(mensaje))
+
+            # Valida que el número ingresado sea mayor a 0
+            if numero <= 0:
+                print("ERROR: Debe ingresar un número entero mayor que cero.")
+                continue
+            
+            return numero
+        
+        # Si se ingresa otro dato que no sea entero se muestra un error.
+        except ValueError:
+            print("ERROR: Debe ingresar un número entero mayor que cero.")
 
 
 
