@@ -73,7 +73,7 @@ def programa_principal():
                 # Recorre el csv fila por fila
                 for fila in lector:
 
-                    print(f"{fila['nombre']}, {fila['poblacion']}, {fila['superficie']}, {fila['continente'].capitalize()}")
+                    print(f"{fila['nombre']}, {fila['poblacion']}, {fila['superficie']}, {fila['continente']}")
 
             return
             # # Opción 7 - Salir del programa
@@ -95,28 +95,23 @@ def agregar_pais():
     while True:
 
         # Se ingresa el nombre del país que se desea incorporar al dataset
-        nombre = validar_nombre("Nombre del país: ").strip().lower()
+        nombre = validar_nombre("Nombre del país: ").strip().capitalize()
 
-        # Invoca a la función para verificar si el país ya pertenece al dataset
+        # Invoca a la función para verificar si el país pertenece al dataset
         if verificar_existencia(nombre):
             print(f"ERROR: {nombre} ya pertenece a la base de datos.")
 
-            # Si el país ya existe se pregunta si quiere reintentar ingresar uno nuevo
-            while True:
-                reintentar = input("\n¿Reintentar? (S/N)").strip().lower()
-
-                if reintentar == "s":
-                    break  # Vuelve a reiniciar el bloque
-                if reintentar == "n":
-                    return  # Sale de la función y vuelve al menú principal 
-                else:
-                    print("\nERROR: Debe seleccionar una opción válida.")
+            # Si el país ya existe se pregunta si quiere reintentar e ingresar uno nuevo
+            if reintentar():
+                continue  # Reinicia el bloque
+            else:
+                return  # Vuelve al menú principal
 
         # Si el país no existe en el dataset se pide el resto de los datos.
         else:
             poblacion = ingresar_entero("Población: ")
             superficie = ingresar_entero("Superficie en km²: ")
-            continente = validar_nombre("Continente: ").strip().lower()
+            continente = validar_nombre("Continente: ").strip().capitalize()
 
             # Abre el csv en modo "a" para agregar los valores ingresados
             with open("dataset_paises.csv", "a", encoding="utf-8") as archivo:
@@ -127,10 +122,6 @@ def agregar_pais():
                 escritor.writerow([nombre, poblacion, superficie, continente])
 
         return
-
-
-
-
 
 
 
@@ -205,6 +196,35 @@ def verificar_existencia(nombre_pais):
                 return True
 
     return False
+
+
+#####################################################
+#####################################################
+
+# Función para reinicar un bloque o volver al menú
+def reintentar():
+
+    while True:
+        reintento = input("\n¿Reintentar? (S/N)").strip().lower()
+
+        if reintento == "s":
+            return True  # Vuelve a reiniciar el bloque
+        if reintento == "n":
+            return False # Sale de la función y vuelve al menú principal 
+        else:
+            print("\nERROR: Debe seleccionar una opción válida.")
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #####################################################################################################################
