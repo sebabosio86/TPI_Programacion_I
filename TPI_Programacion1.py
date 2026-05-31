@@ -65,7 +65,7 @@ def programa_principal():
 
         else:
 
-            # OPCIÓN TEMPORAL PARA MOSTRAR LOS VALORES DEL DATASET
+            ## OPCIÓN TEMPORAL PARA MOSTRAR LOS VALORES DEL DATASET
             with open("dataset_paises.csv", "r", encoding="utf-8") as archivo:
 
                 lector = csv.DictReader(archivo)
