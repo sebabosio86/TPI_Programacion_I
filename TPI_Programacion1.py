@@ -17,6 +17,7 @@ def programa_principal():
         print("6. Mostrar estadísticas")
         print("7. Salir del sistema\n")
 
+
         # Ingresar opcion y validar
         while True:
 
@@ -35,6 +36,7 @@ def programa_principal():
             except ValueError:  
                 print(f"\nERROR: Debe ingresar un numero entre 1 y 7.")
         
+
         # Invoca a la función correspondiente de acuerdo a la opción seleccionada por el usuario.
         if opcion == 1:
 
@@ -63,10 +65,21 @@ def programa_principal():
 
         else:
 
-            # Opción 7 - Salir del programa
-            print("\nSaliendo del sistema")
-            print("Hasta la próxima")
+            # OPCIÓN TEMPORAL PARA MOSTRAR LOS VALORES DEL DATASET
+            with open("dataset_paises.csv", "r", encoding="utf-8") as archivo:
+
+                lector = csv.DictReader(archivo)
+
+                # Recorre el csv fila por fila
+                for fila in lector:
+
+                    print(f"{fila['nombre']}, {fila['poblacion']}, {fila['superficie']}, {fila['continente'].capitalize()}")
+
             return
+            # # Opción 7 - Salir del programa
+            # print("\nSaliendo del sistema")
+            # print("Hasta la próxima")
+            # return
 
 
 #####################################################
@@ -79,10 +92,41 @@ def agregar_pais():
     print(" "*11 + "--- AGREGAR NUEVO PAÍS ---")
     print("="*50)
 
-    #nombre_pais = validar_nombre("Nombre: ").strip().lower()
+    while True:
 
+        # Se ingresa el nombre del país que se desea incorporar al dataset
+        nombre = validar_nombre("Nombre del país: ").strip().lower()
 
-    return
+        # Invoca a la función para verificar si el país ya pertenece al dataset
+        if verificar_existencia(nombre):
+            print(f"ERROR: {nombre} ya pertenece a la base de datos.")
+
+            # Si el país ya existe se pregunta si quiere reintentar ingresar uno nuevo
+            while True:
+                reintentar = input("\n¿Reintentar? (S/N)").strip().lower()
+
+                if reintentar == "s":
+                    break  # Vuelve a reiniciar el bloque
+                if reintentar == "n":
+                    return  # Sale de la función y vuelve al menú principal 
+                else:
+                    print("\nERROR: Debe seleccionar una opción válida.")
+
+        # Si el país no existe en el dataset se pide el resto de los datos.
+        else:
+            poblacion = ingresar_entero("Población: ")
+            superficie = ingresar_entero("Superficie en km²: ")
+            continente = validar_nombre("Continente: ").strip().lower()
+
+            # Abre el csv en modo "a" para agregar los valores ingresados
+            with open("dataset_paises.csv", "a", encoding="utf-8") as archivo:
+
+                escritor = csv.writer(archivo)
+
+                # Agrega una nueva línea en el dataset con los nuevos valores
+                escritor.writerow([nombre, poblacion, superficie, continente])
+
+        return
 
 
 
