@@ -15,7 +15,7 @@ def programa_principal():
         print("4. Filtrar países")
         print("5. Ordenar países")
         print("6. Mostrar estadísticas")
-        print("7. Salir del sistema\n")
+        print("7. Salir del sistema")
 
         # Ingresar opcion y validar
         opcion_menu = ingresar_entero("\nOpción: ", 1, 7)
@@ -25,8 +25,7 @@ def programa_principal():
             agregar_pais()
 
         elif opcion_menu == 2:
-
-            pass
+            actualizar_datos()
 
         elif opcion_menu == 3:
             
@@ -102,7 +101,7 @@ def agregar_pais():
                 # Agrega una nueva línea en el dataset con los nuevos valores
                 escritor.writerow([nombre, poblacion, superficie, continente])
 
-            print("\nDatos guardados exitosamente")
+            print("\n¡Datos guardados exitosamente!")
             input("\nPresione ENTER para continuar")
 
         return
@@ -115,7 +114,104 @@ def agregar_pais():
 # Actualizar datos de un país
 def actualizar_datos():
 
-    return
+    ## ACÁ FALTA UN "IF" PARA COMPROBAR QUE EXISTAN ELEMENTOS EN EL DATASET.
+    ## SI EL DATASET ESTÁ VACÍO DEBE MOSTRAR UN MENSAJE Y VOLOVER AL MENÚ
+
+    print("\n" + "="*50)
+    print(" "*7 + "--- ACTUALIZAR DATOS DE UN PAIS ---")
+    print("="*50)
+    print("\nPuede actualizar datos de población y superficie")
+
+    # Lista vacía que almacenará en la RAM cada fila del archivo csv a medida que vaya leyendo
+    dataset_temporal = []
+
+    # Cabeceras de las columnas
+    cabecera = ['nombre','poblacion','superficie','continente']
+
+    while True:
+
+        # Se ingresa el nombre del país que se desea incorporar al dataset
+        nombre = validar_nombre("Nombre del país: ").strip().capitalize()
+
+        # Invoca a la función para verificar si el país pertenece al dataset
+        if not verificar_existencia(nombre):
+            print(f"No se encontró {nombre} en la base de datos.")
+        
+            # Si el país no existe se pregunta si quiere reintentar e ingresar uno nuevo
+            if reintentar():
+                continue  # Reinicia el bloque
+            else:
+                return  # Vuelve al menú principal
+            
+        # Si el país ingresado existe, se muestra un sub menú
+        else:
+            
+            print("\n¿Qué datos desea actializar?")
+            print("\n1. Población")
+            print("2. Superficie")
+            print("3. Volver al menú principal")
+
+            opcion_sub_menu = ingresar_entero("\nOpción: ", 1, 3)
+
+            # Vuelve al menú principal
+            if opcion_sub_menu == 3:
+                return
+            
+            # Para la selección de la opción 1 o 2 se ingresa el valor que se quiere modificar
+            else:
+                
+                if opcion_sub_menu == 1:
+                    poblacion = ingresar_entero("\nNuevo valor para la población: ", 1)
+
+                else:
+                    superficie = ingresar_entero("\nNuevo valor para la superficie: ", 1)
+
+                # Abre el csv en modo "r" para leerlo
+                with open("dataset_paises.csv", "r", encoding="utf-8") as archivo:
+
+                    # Convierte cada fila del csv en un diccionario
+                    lector = csv.DictReader(archivo)
+
+                    # Se recorre el csv fila por fila
+                    for fila in lector:
+
+                        # Encuentra el país buscado
+                        if fila['nombre'] == nombre:
+
+                            # Si se había seleccionado la opción 1, cambia el valor de población
+                            if opcion_sub_menu == 1:
+                                fila['poblacion'] = poblacion
+
+                            # Si se había seleccionado la opción 2, cambia el valor de supericie
+                            else:
+                                fila['superficie'] = superficie
+                                
+                        # Cada fila recorrida (se haya modificado o no) se va guardando en esta lista temporal
+                        dataset_temporal = dataset_temporal + [fila]
+
+                # Reescribimos todo el archivo csv
+                with open("dataset_paises.csv", "w", encoding="utf-8") as archivo:
+
+                    escritor = csv.DictWriter(archivo, fieldnames= cabecera)
+
+                    # Se agrega la cabecera del csv con los nombres definidos en fieldnames
+                    escritor.writeheader()
+
+                    # Escribe los datos del dataset temporal en el nuevo csv
+                    escritor.writerows(dataset_temporal)
+                
+                # Muestra un mensaje de acuerdo al campo que se modificó
+                if opcion_sub_menu == 1:
+                    print("Operación exitosa. El valor de población se actualizó correctamente.")
+
+                else:
+                    print("Operación exitosa. El valor de superficie se actualizó correctamente.")
+                
+                input("\nPresione ENTER para continuar")
+
+                return
+
+
 
 
 
@@ -143,7 +239,7 @@ def validar_nombre(mensaje):
 #####################################################
 #####################################################
 
-# Valida que el valor ingresado sea un número entero
+# Valida que el valor ingresado sea un número entero. Se permiten argumentos de valor mínimo y máximo
 def ingresar_entero(mensaje, min=None, max=None):
 
     while True:
@@ -153,11 +249,11 @@ def ingresar_entero(mensaje, min=None, max=None):
             # Si pide ingresar el número
             numero = int(input(mensaje))
 
-            if numero is not None and numero < min:
+            if min is not None and numero < min:
                 print(f"ERROR: El número debe ser mayor o igual a {min}.")
                 continue
 
-            if numero is not None and numero > max:
+            if max is not None and numero > max:
                 print(f"ERROR: El número debe ser menor o igual a {max}.")
                 continue
             
@@ -176,16 +272,13 @@ def verificar_existencia(nombre_pais):
 
     with open("dataset_paises.csv", "r", encoding="utf-8") as archivo:
 
-        lector = csv.reader(archivo)
-
-        # Saltar la cabecera
-        next(lector)
+        lector = csv.DictReader(archivo)
 
         # Recorre el csv fila por fila
         for fila in lector:
 
             # fila[0] corresponde a los nombres de países. Si coincide devuelve True
-            if fila[0] == nombre_pais:
+            if fila['nombre'] == nombre_pais:
                 return True
 
     return False
