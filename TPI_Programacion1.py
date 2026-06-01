@@ -17,49 +17,30 @@ def programa_principal():
         print("6. Mostrar estadísticas")
         print("7. Salir del sistema\n")
 
-
         # Ingresar opcion y validar
-        while True:
-
-            try:
-                opcion =int(input("Opción: "))  # Usuario ingresa la ocpión del menú
-
-                # Si está dentro del rango válido pasa al siguiente bloque
-                if 1 <= opcion <= 7:  
-                    break
-                
-                # Si está fuera de rango se repite el bucle
-                else:  
-                    print(f"\nERROR. Ingrese una opción válida (1-7).")
-            
-            # Si el valor ingresado no es un número válido muetra un error.
-            except ValueError:  
-                print(f"\nERROR: Debe ingresar un numero entre 1 y 7.")
+        opcion_menu = ingresar_entero("\nOpción: ", 1, 7)
         
-
         # Invoca a la función correspondiente de acuerdo a la opción seleccionada por el usuario.
-        if opcion == 1:
-
+        if opcion_menu == 1:
             agregar_pais()
+
+        elif opcion_menu == 2:
+
             pass
 
-        elif opcion == 2:
-
-            pass
-
-        elif opcion == 3:
+        elif opcion_menu == 3:
             
             pass
 
-        elif opcion == 4:
+        elif opcion_menu == 4:
 
             pass
 
-        elif opcion == 5:
+        elif opcion_menu == 5:
 
             pass
             
-        elif opcion == 6:
+        elif opcion_menu == 6:
 
             pass
 
@@ -109,8 +90,8 @@ def agregar_pais():
 
         # Si el país no existe en el dataset se pide el resto de los datos.
         else:
-            poblacion = ingresar_entero("Población: ")
-            superficie = ingresar_entero("Superficie en km²: ")
+            poblacion = ingresar_entero("Población: ", 1)
+            superficie = ingresar_entero("Superficie en km²: ", 1)
             continente = validar_nombre("Continente: ").strip().capitalize()
 
             # Abre el csv en modo "a" para agregar los valores ingresados
@@ -121,11 +102,20 @@ def agregar_pais():
                 # Agrega una nueva línea en el dataset con los nuevos valores
                 escritor.writerow([nombre, poblacion, superficie, continente])
 
+            print("\nDatos guardados exitosamente")
+            input("\nPresione ENTER para continuar")
+
         return
 
 
 
+#####################################################
+#####################################################
 
+# Actualizar datos de un país
+def actualizar_datos():
+
+    return
 
 
 
@@ -154,7 +144,7 @@ def validar_nombre(mensaje):
 #####################################################
 
 # Valida que el valor ingresado sea un número entero
-def ingresar_entero(mensaje):
+def ingresar_entero(mensaje, min=None, max=None):
 
     while True:
 
@@ -163,16 +153,19 @@ def ingresar_entero(mensaje):
             # Si pide ingresar el número
             numero = int(input(mensaje))
 
-            # Valida que el número ingresado sea mayor a 0
-            if numero <= 0:
-                print("\nERROR: Debe ingresar un número entero mayor que cero.")
+            if numero is not None and numero < min:
+                print(f"ERROR: El número debe ser mayor o igual a {min}.")
+                continue
+
+            if numero is not None and numero > max:
+                print(f"ERROR: El número debe ser menor o igual a {max}.")
                 continue
             
             return numero
         
         # Si se ingresa otro dato que no sea entero se muestra un error.
         except ValueError:
-            print("\nERROR: Debe ingresar un número entero mayor que cero.")
+            print("\nERROR: Debe ingresar un número válido.")
 
 
 #####################################################
