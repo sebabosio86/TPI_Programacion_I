@@ -1,7 +1,23 @@
+'''
+UNIVERSIDAD: UTN Facultad San Nicolás
+CARRERA: Tecnicatura Universitaria en Programación a Distancia
+CÁTEDRA: Programación I
+AÑO: 2026
+
+Trabajo Práctico Integrador 
+
+ALUMNOS:
+
+xxxxxxxx  xxxxx - Comisión xx
+Sebastián Ezequiel Bosio - Comisión 17
+
+DESCRIPCIÓN:
+    
+
+'''
+
 #####################################################################################################################
-
 # Declaración de FUNCIONES PRINCIPALES
-
 #####################################################################################################################
 
 def programa_principal():
@@ -70,7 +86,7 @@ def agregar_pais():
 
     print("\n" + "="*50)
     print(" "*11 + "--- AGREGAR NUEVO PAÍS ---")
-    print("="*50)
+    print("="*50 + "\n")
 
     while True:
 
@@ -114,13 +130,15 @@ def agregar_pais():
 # Actualizar datos de un país
 def actualizar_datos():
 
-    ## ACÁ FALTA UN "IF" PARA COMPROBAR QUE EXISTAN ELEMENTOS EN EL DATASET.
-    ## SI EL DATASET ESTÁ VACÍO DEBE MOSTRAR UN MENSAJE Y VOLOVER AL MENÚ
+    # Comprueba si hay países cargados en el csv. Si la lista está vacía se vuelve al menú principal
+    if lista_vacia():
+        print("\nAún no hay datos cargados.")
+        input("\nPresione ENTER para continuar")
+        return
 
     print("\n" + "="*50)
     print(" "*7 + "--- ACTUALIZAR DATOS DE UN PAIS ---")
-    print("="*50)
-    print("\nPuede actualizar datos de población y superficie")
+    print("="*50 + "\n")
 
     # Lista vacía que almacenará en la RAM cada fila del archivo csv a medida que vaya leyendo
     dataset_temporal = []
@@ -202,23 +220,18 @@ def actualizar_datos():
                 
                 # Muestra un mensaje de acuerdo al campo que se modificó
                 if opcion_sub_menu == 1:
-                    print("Operación exitosa. El valor de población se actualizó correctamente.")
+                    print("\nOperación exitosa. El valor de población se actualizó correctamente.")
 
                 else:
-                    print("Operación exitosa. El valor de superficie se actualizó correctamente.")
+                    print("\nOperación exitosa. El valor de superficie se actualizó correctamente.")
                 
                 input("\nPresione ENTER para continuar")
 
                 return
 
 
-
-
-
 #####################################################################################################################
-
 # Declaración de FUNCIONES SECUNDARIAS
-
 #####################################################################################################################
 
 # Comprueba que el nombre de país ingresado no sea un string vacío
@@ -227,7 +240,7 @@ def validar_nombre(mensaje):
     while True:
 
         # Se pide ingresar el nombre del país
-        nombre_pais = input(mensaje).strip().lower()
+        nombre_pais = input(mensaje).strip().capitalize()
         
         # En caso de ingresar str vacío se muestra mensaje de error.
         if nombre_pais == "":
@@ -301,22 +314,25 @@ def reintentar():
             print("\nERROR: Debe seleccionar una opción válida.")
 
 
+#####################################################
+#####################################################
 
+# 
+def lista_vacia():
 
+    with open("dataset_paises.csv", "r", encoding="utf-8") as archivo:
 
+        lector = csv.DictReader(archivo)
+        
+        for fila in lector:
+            return False
 
-
-
-
-
-
+    return True
 
 
 
 #####################################################################################################################
-
 # Ejecución del programa principal
-
 #####################################################################################################################
 
 # Se importa la biblioteca csv
