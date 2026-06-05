@@ -479,7 +479,7 @@ def reintentar():
 #####################################################
 #####################################################
 
-# 
+# Revisa si el dataset está vacío. Si no hay filas devuelve True, de lo contrario devuelve False
 def lista_vacia():
 
     with open("dataset_paises.csv", "r", encoding="utf-8") as archivo:
