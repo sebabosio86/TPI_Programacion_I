@@ -331,11 +331,11 @@ def filtrar_paises():
     with open("dataset_paises.csv","r", encoding="utf-8") as archivo:
         lector = csv.DictReader(archivo)
     
-    for fila in lector:
-        #Utilizamos la funcion cumple_filtros()
-        if cumple_filtros(fila, opcion_filtro, valor_texto, rango_min, rango_max):
-            print(f"{fila['nombre']:<20} | {fila['poblacion']:<12} | {fila['superficie']:<16} | {fila['continente']}")
-            cantidad_resultados += 1
+        for fila in lector:
+            #Utilizamos la funcion cumple_filtros()
+            if cumple_filtros(fila, opcion_filtro, valor_texto, rango_min, rango_max):
+                print(f"{fila['nombre']:<20} | {fila['poblacion']:<12} | {fila['superficie']:<16} | {fila['continente']}")
+                cantidad_resultados += 1
     
     print("-"*60)
 
@@ -345,7 +345,7 @@ def filtrar_paises():
     else:
         print(f"Se encontraron {cantidad_resultados} pais(es) que coinciden con el filtro. ")
 
-    input("\nPresione ENTER para continuar")
+    input("\nPresione ENTER para volver al menú principal")
 
 
 #####################################################
@@ -542,7 +542,7 @@ def reintentar():
 #####################################################
 #####################################################
 
-# 
+# Revisa si el dataset está vacío
 def lista_vacia():
 
     with open("dataset_paises.csv", "r", encoding="utf-8") as archivo:
