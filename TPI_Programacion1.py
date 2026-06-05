@@ -58,7 +58,6 @@ def programa_principal():
             
         elif opcion_menu == 6:
             mostrar_estadisticas()
-            pass
 
         else:
 
