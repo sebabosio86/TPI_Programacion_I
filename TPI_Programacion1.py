@@ -8,11 +8,15 @@ Trabajo Práctico Integrador
 
 ALUMNOS:
 
-xxxxxxxx  xxxxx - Comisión xx
+Bruno Nicolas Matcovich - Comisión 3
 Sebastián Ezequiel Bosio - Comisión 17
 
 DESCRIPCIÓN:
-    x
+El programa es un sistema de gestión de datos de países que permite al usuario agregar nuevos países con su población, superficie y 
+continente en un archivo CSV, así como también actualizar datos existentes, buscar países por nombre, filtrar países según ciertos criterios,
+ordenar países por diferentes atributos y mostrar estadísticas de los países almacenados en el archivo CSV.
+El programa utiliza funciones para organizar el código y facilitar la interacción con el usuario a través de un menú principal.
+Además, se implementan validaciones para asegurar que los datos ingresados sean correctos. 
 
 '''
 
@@ -47,39 +51,27 @@ def programa_principal():
             buscar_pais()
 
         elif opcion_menu == 4:
-
             filtrar_paises()
 
         elif opcion_menu == 5:
             ordenar_paises()
             
         elif opcion_menu == 6:
-
+            mostrar_estadisticas()
             pass
 
         else:
 
-            ## OPCIÓN TEMPORAL PARA MOSTRAR LOS VALORES DEL DATASET
-            with open("dataset_paises.csv", "r", encoding="utf-8") as archivo:
-
-                lector = csv.DictReader(archivo)
-
-                # Recorre el csv fila por fila
-                for fila in lector:
-
-                    print(f"{fila['nombre']}, {fila['poblacion']}, {fila['superficie']}, {fila['continente']}")
-
+            # Opción 7 - Salir del programa
+            print("\nSaliendo del sistema")
+            print("Hasta la próxima")
             return
-            # # Opción 7 - Salir del programa
-            # print("\nSaliendo del sistema")
-            # print("Hasta la próxima")
-            # return
 
 
 #####################################################
 #####################################################
 
-# Agregar nuevo país 
+# Agregar nuevo país al dataset (opción 1 del menú principal)
 def agregar_pais():
 
     print("\n" + "="*50)
@@ -124,7 +116,7 @@ def agregar_pais():
 #####################################################
 #####################################################
 
-# Actualizar datos de un país (población o superficie)
+# Actualizar datos de un país (opción 2 del menú principal)
 def actualizar_datos():
 
     # Comprueba si hay países cargados en el csv. Si la lista está vacía se vuelve al menú principal
@@ -282,7 +274,6 @@ def buscar_pais():
 #####################################################
 
 # Filtrar paises por continente, rango de población o rango de superficie (opción 4 del menú principal)
-
 def filtrar_paises():
     #Comprobamos si hay datos usando la funcion lista_vacia()
     if lista_vacia():
@@ -446,6 +437,7 @@ def ordenar_paises():
     print(f"{'Nombre':<20} | {'Población':<12} | {'Superficie (km²)':<16} | {'Continente'}")
     print("-"*70)
 
+    # Recorre la lista y muestra los datos
     for pais in lista_paises:
         print(f"{pais['nombre']:<20} | {pais['poblacion']:<12} | {pais['superficie']:<16} | {pais['continente']}")
     print("-"*70)
@@ -453,6 +445,83 @@ def ordenar_paises():
     input("\nPresione ENTER para volver al menú principal")
 
     return
+
+
+#####################################################
+#####################################################
+
+# Mostrar estadísticas (opción 6 del menú principal)
+def mostrar_estadisticas():
+
+    # Comprueba si hay países cargados en el csv. Si la lista está vacía se vuelve al menú principal
+    if lista_vacia():
+        print("\nAún no hay datos cargados.")
+        input("\nPresione ENTER para continuar")
+        return
+    
+    print("\n" + "="*50)
+    print(" "*10 + "--- MOSTRAR ESTADÍSTICAS ---")
+    print("="*50 + "\n")
+
+    # Se definen variables para las estadísticas
+
+    pais_mas_poblado = None  # Se asigna el valor None para poder comparar con el primer país del dataset y asignar el valor correspondiente
+    pais_menos_poblado = None
+    promedio_poblacion = 0
+    promedio_superficie = 0
+    paises_por_continente = {}  # Diccionario para contar la cantidad de países por continente
+    cantidad_paises = 0  # Contador para la cantidad total de países para calcular promedios
+
+    with open("dataset_paises.csv", "r", encoding="utf-8") as archivo:
+
+        lector = csv.DictReader(archivo)
+
+        # Recorre el csv fila por fila para calcular las estadísticas.
+        for fila in lector:
+
+            # Convierte población y superficie a números enteros para poder compararlos correctamente
+            fila['poblacion'] = int(fila['poblacion'])
+            fila['superficie'] = int(fila['superficie'])
+
+            # Verifica si el país actual es el más poblado o el menos poblado y actualiza las variables correspondientes
+            if pais_mas_poblado is None or fila['poblacion'] > pais_mas_poblado['poblacion']:
+                pais_mas_poblado = fila
+
+            if pais_menos_poblado is None or fila['poblacion'] < pais_menos_poblado['poblacion']:
+                pais_menos_poblado = fila
+
+            # Suma la población y superficie para calcular los promedios
+            promedio_poblacion += fila['poblacion']
+            promedio_superficie += fila['superficie']
+
+            # Cuenta la cantidad de países por continente
+            continente = fila['continente']
+
+            # Si el continente ya está en el diccionario, incrementa su contador. 
+            if continente in paises_por_continente:
+                paises_por_continente[continente] += 1
+
+            # Si el continente no está en el diccionario, lo agrega con un contador inicial de 1.
+            else:
+                paises_por_continente[continente] = 1
+
+            cantidad_paises += 1  # Incrementa el contador de países.
+
+    # Calcula los promedios dividiendo la suma total por la cantidad de países
+    promedio_poblacion = int(promedio_poblacion / cantidad_paises)
+    promedio_superficie = int(promedio_superficie / cantidad_paises)
+
+    # Muestra las estadísticas
+    print(f"País más poblado: {pais_mas_poblado['nombre']}")
+    print(f"País menos poblado: {pais_menos_poblado['nombre']}")
+    print(f"Promedio de población: {promedio_poblacion} habitantes")
+    print(f"Promedio de superficie: {promedio_superficie} km²")
+
+    # Muestra la cantidad de países por continente recorriendo el diccionario
+    for continente, cantidad in paises_por_continente.items():
+        print(f"{continente}: {cantidad} países")
+
+    input("\nPresione ENTER para volver al menú principal")
 
 
 #####################################################################################################################
