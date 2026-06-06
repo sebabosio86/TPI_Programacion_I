@@ -43,7 +43,7 @@ El programa utiliza funciones para organizar el código y facilitar la interacci
 7. Salir del sistema
 ```
 
-5. Seleccionar la opción deseada ingresando el número correspondiente.
+- Seleccionar la opción deseada ingresando el número correspondiente.
 
 ---
 
