@@ -24,6 +24,7 @@ Además, se implementan validaciones para asegurar que los datos ingresados sean
 # Declaración de FUNCIONES PRINCIPALES
 #####################################################################################################################
 
+# Función principal que muestra el menú y permite al usuario seleccionar las diferentes opciones.
 def programa_principal():
 
     while True:
@@ -255,7 +256,6 @@ def buscar_pais():
                 print(f"{fila['nombre']:<20} | {fila['poblacion']:<12} | {fila['superficie']:<16} | {fila['continente']}")
                 coincidencias_encontradas += 1
 
-
     print("-"*70)
 
     # Si el contador quedó en 0, significa que no hubo resultados (Exigencia de la consigna)
@@ -388,7 +388,6 @@ def ordenar_paises():
     else:
         nombre_criterio = "SUPERFICIE"
         clave_orden = 'superficie'
-
 
     # Lista vacía que almacenará cada fila del archivo csv a medida que vaya leyendo
     lista_paises = []
@@ -524,7 +523,7 @@ def mostrar_estadisticas():
 
 
 #####################################################################################################################
-# Declaración de FUNCIONES SECUNDARIAS
+# Declaración de FUNCIONES AUXILIARES
 #####################################################################################################################
 
 # Comprueba que el nombre de país ingresado no sea un string vacío
@@ -621,6 +620,8 @@ def lista_vacia():
             return False
 
     return True
+
+
 #####################################################
 #####################################################
 
@@ -639,7 +640,6 @@ def cumple_filtros(pais, tipo_filtro, valor_filtro, min_filtro=None, max_filtro=
     return False
 
 
-
 #####################################################################################################################
 # Ejecución del programa principal
 #####################################################################################################################
@@ -647,4 +647,5 @@ def cumple_filtros(pais, tipo_filtro, valor_filtro, min_filtro=None, max_filtro=
 # Se importa la biblioteca csv
 import csv
 
+# Llamado a la función principal para iniciar el programa
 programa_principal()
