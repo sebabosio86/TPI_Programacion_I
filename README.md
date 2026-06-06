@@ -1,6 +1,8 @@
-**Universidad Tecnológica Nacional – Facultad Regional San Nicolás**
-**Tecnicatura Universitaria en Programación a Distancia**
-**Programación I – Trabajo Práctico Integrador**
+# Trabajo Práctico Integrador
+## Universidad Tecnológica Nacional 
+## Facultad Regional San Nicolás
+## Tecnicatura Universitaria en Programación a Distancia
+## Programación I 
 
 ## Autores
 
