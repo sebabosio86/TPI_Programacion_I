@@ -554,12 +554,15 @@ def ingresar_entero(mensaje, min=None, max=None):
             # Si pide ingresar el número
             numero = int(input(mensaje))
 
+            # Veerifica que el número ingresado esté entre los rangos establecidos por los argumentos min y max
+            if min is not None and max is not None:
+                if numero < min or numero > max:
+                    print(f"ERROR: El número debe estar entre {min} y {max}.")
+                    continue
+
+            # Verifica que el número ingresado sea mayor o igual al valor mínimo establecido
             if min is not None and numero < min:
                 print(f"ERROR: El número debe ser mayor o igual a {min}.")
-                continue
-
-            if max is not None and numero > max:
-                print(f"ERROR: El número debe ser menor o igual a {max}.")
                 continue
             
             return numero
