@@ -1,17 +1,21 @@
 # Trabajo Práctico Integrador
-## Universidad Tecnológica Nacional 
-## Facultad Regional San Nicolás
-## Tecnicatura Universitaria en Programación a Distancia
-## Programación I 
 
-## Autores
+### Universidad Tecnológica Nacional 
+
+### Facultad Regional San Nicolás
+
+### Tecnicatura Universitaria en Programación a Distancia
+
+### Programación I 
+
+### Autores
 
 * Bruno Nicolás Matcovich
 * Sebastián Ezequiel Bosio
 
 # Sistema de Gestión de Países
 
-## Descripción
+### Descripción
 
 El programa es un sistema de gestión de datos de países que permite al usuario agregar nuevos países con su población, superficie y continente en un archivo CSV, así como también actualizar datos existentes, buscar países por nombre, filtrar países según ciertos criterios, ordenar países por diferentes atributos y mostrar estadísticas de los países almacenados en el archivo CSV.
 El programa utiliza funciones para organizar el código y facilitar la interacción con el usuario a través de un menú principal. Además, se implementan validaciones para asegurar que los datos ingresados sean correctos.
@@ -230,3 +234,22 @@ El programa incorpora controles para evitar errores durante la carga de informac
 * Controla rangos mínimos y máximos cuando corresponde.
 * Detecta cuando el archivo de datos no contiene registros.
 
+## Participación de los integrantes
+
+Bruno Matkovich: 
+
+* Escritura de las funciones buscar_pais, filtrar_paises y mostrar_estadisticas, correspondientes a las opciones 3, 4 y 6 del menú principal. 
+* Desarrollo de funciones auxiliares:cumple_filtros, lista_vacía y reintentar.
+* Desarrollo del informe final: introducción, marco teórico, pruebas del programa y capturas de pantalla.
+  
+Sebastián Bosio: 
+
+* Desarrollo del menú principal del programa y las funciones agregar_pais, actualizar_datos y ordenar_paises (opciones 1, 2 y 5 del menú principal. 
+* Diseño del diagrama de flujo.
+* Desarrollo de funciones auxiliares: ingresar_entero, validar_existencia y validar_nombre.
+* Desarrollo del informe final: dificultades y conclusiones.
+* Redacción del archivo README.md
+
+## Enlace al video demostrativo en Youtube
+
+  https://www.youtube.com/watch?v=L2IoBFFEtIU&t=11s
